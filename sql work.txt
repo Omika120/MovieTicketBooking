@@ -1,0 +1,55 @@
+-- Create database
+CREATE DATABASE moviebooking_db;
+
+-- Use the newly created database
+USE moviebooking_db;
+
+-- Create Users table
+CREATE TABLE users (
+    userId INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL
+);
+
+-- Create Movies table
+CREATE TABLE movies (
+    movieId INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    genre VARCHAR(255),
+    duration INT
+);
+
+-- Create Showtimes table
+CREATE TABLE showtimes (
+    showtimeId INT AUTO_INCREMENT PRIMARY KEY,
+    movieId INT NOT NULL,
+    date DATE NOT NULL,
+    time TIME NOT NULL,
+    FOREIGN KEY (movieId) REFERENCES movies(movieId)
+);
+
+-- Create Seats table
+CREATE TABLE seats (
+    seatId INT AUTO_INCREMENT PRIMARY KEY,
+    showtimeId INT NOT NULL,
+    seatNumber INT NOT NULL,
+    isAvailable BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (showtimeId) REFERENCES showtimes(showtimeId)
+);
+
+-- Create Bookings table
+CREATE TABLE bookings (
+    bookingId INT AUTO_INCREMENT PRIMARY KEY,
+    userId INT NOT NULL,
+    showtimeId INT NOT NULL,
+    seatNumber INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (userId) REFERENCES users(userId),
+    FOREIGN KEY (showtimeId) REFERENCES showtimes(showtimeId)
+);
+select * from users;
+show tables;
+select * from movies;
+select * from showtimes;
+select * from seats;
